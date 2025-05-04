@@ -1,0 +1,44 @@
+"use client";
+import React from "react";
+import Image from "next/image";
+import useProductFetch from "@/hooks/api/product/useProductFetch";
+
+const ProductList = () => {
+  const { data: products, isLoading, isError, error } = useProductFetch();
+
+  if (isLoading) return <p>Loading products...</p>;
+  if (isError) return <p>Error: {error?.message || "Something went wrong"}</p>;
+
+  const productList = products?.data || products; // Adjust depending on API response
+
+  return (
+    <div className="py-10 px-4 md:px-10">
+      <h2 className="text-2xl font-semibold mb-6">All Products</h2>
+      {productList?.length === 0 ? (
+        <p>No products available.</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {productList?.map((product) => (
+            <div key={product._id} className="bg-white rounded-xl shadow-md p-4">
+              <Image
+                src={product?.images?.[0] || "/fallback.jpg"}
+                alt={product.name}
+                width={300}
+                height={200}
+                className="rounded-lg object-cover w-full h-[200px]"
+              />
+              <div className="mt-4">
+                <h3 className="text-lg font-semibold">{product.name}</h3>
+                <p className="text-gray-600 text-sm mt-1">{product.brand}</p>
+                <p className="text-green-600 font-bold mt-2">₹{product.price}</p>
+                <p className="text-sm text-yellow-600 mt-1">⭐ {product.rating}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ProductList;
