@@ -17,7 +17,7 @@ export const getAllProducts = async () => {
 // ✅ Get a single product by ID
 export const getProductById = async (id) => {
   try {
-    const res = await axiosIntance.get(`/product/getproduct${id}`);
+    const res = await axiosIntance.get(`/product/getproduct/${id}`);
     return res.data;
   } catch (error) {
     console.error(`Error fetching product with ID ${id}:`, error);
