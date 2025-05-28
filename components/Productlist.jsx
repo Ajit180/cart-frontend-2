@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import useProductFetch from "@/hooks/api/product/useProductFetch";
+import Link from "next/link";
 
 const ProductList = () => {
   const { data, isLoading, isError, isSuccess, error } = useProductFetch();
@@ -18,6 +19,7 @@ const ProductList = () => {
       <h2 className="text-2xl font-semibold mb-6">All Products</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
+           <Link key={product._id} href={`/Products/${product._id}`}>
           <div key={product._id} className="bg-white rounded-xl shadow-md p-4">
             <img
               src={product.images[0]}
@@ -34,6 +36,7 @@ const ProductList = () => {
               <p className="text-xs text-gray-500 mt-1">{product.categoryId.name}</p>
             </div>
           </div>
+          </Link>
         ))}
       </div>
     </div>
